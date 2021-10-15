@@ -1,0 +1,53 @@
+header {
+    width: 100%;
+    background-color: yellow;
+    text-align: center;
+}
+
+h2 {
+    margin: 0;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.menu_aside, main, .last_posts_aside {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.menu_aside {
+    width: 20%;
+    box-sizing: border-box;
+    padding: 0 0 0 10px;
+}
+
+main {
+    width: 60%;
+    box-sizing: border-box;
+    border-left: 3px solid green;
+    padding-left: 20px;
+
+}
+
+.last_posts_aside {
+    box-sizing: border-box;
+    border: dashed green;
+    text-align: end;
+    padding: 10px 10px 10px 10px;
+}
+
+footer {
+    text-align: center;
+    vertical-align: bottom;
+}
+
+a:hover {
+    color: red;
+}
+
+a:visited {
+    color: green;
+}
