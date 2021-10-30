@@ -2,7 +2,7 @@ const countVowels =  function() {
 
     const outputField = document.getElementById("result");
     const inputField = document.getElementById("text_input");
-    let input = inputField.value;
+    let input = inputField.value.toLowerCase();
 
 
     const vowels = ['a', 'e', 'i', 'o', 'u'];
