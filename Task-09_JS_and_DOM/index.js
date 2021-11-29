@@ -1,27 +1,23 @@
 function startEliminationGame(n, step) {
-    const digits = Array.from({length: n}, (_, i) => i + 1)
-    let counterEveryN = 0;
-    let elementCounter = 0;
-    while (digits.length != 1) {
-        while (elementCounter < digits.length) {
-            if (counterEveryN != step - 1) {
-                elementCounter++
-                counterEveryN++
-            } else {
-                let elementToDelete = digits[elementCounter];
-                digits.splice(elementCounter, 1);
-                counterEveryN = 0;
-                if (digits.length == 1) {
-                    break
-                }
-            }
-        }
-        elementCounter = 0;
+    let list = [];
+    for (let i = 0; i < n; i++) {
+        list[i] = i + 1;
     }
-    return digits[0];
+
+    for (let newStep = 1; list.length > 1; newStep++) {
+        let cur = list.shift();
+        if (!(newStep % step == 0)) {
+            list.push(cur);
+        } else {
+            newStep = 0;
+        }
+    }
+    return list[0];
 }
 
 const convertToBinary = function (input) {
+
+
     let output = "";
     for (let i = 0; i < input.length; i++) {
         let s = "0".concat(input[i].charCodeAt(0).toString(2));
@@ -32,7 +28,7 @@ const convertToBinary = function (input) {
 
 function generateFormula(n) {
     if (typeof n != 'number' || !Number.isInteger(n) || n < -200 || n > 200) {
-        return 'Invalid input'
+        return 'Invalid input';
     }
 
     let isNegative = false
@@ -77,38 +73,46 @@ function factorial(n) {
     return n ? n * factorial(n - 1n) : 1n;
 }
 
-var BINARY_RESULT = document.querySelector(".binary-result");
-var DEGREE_RESULT = document.querySelector(".degree-result");
-var ELEMINATE_RESULT = document.querySelector(".eleminate-result");
-var BINARY_INPUT = document.getElementById("binary-input");
-var DEGREE_INPUT = document.getElementById("degree-input");
-var ELEMINATE_INPUT_N = document.getElementById("eleminate-input-N");
-var ELEMINATE_INPUT_M = document.getElementById("eleminate-input-M");
+let BINARY_CONVERTER_RESULT = document.querySelector(".binary-converter-result");
+let FORMULA_GENERATOR_RESULT = document.querySelector(".formula-generator-result");
+let ELIMINTION_GAME_RESULT = document.querySelector(".elimination-game-result");
+let BINARY_CONVERTER_INPUT = document.getElementById("binary-converter-input");
+let FORMULA_GENERATOR_INPUT = document.getElementById("formula-generator-input");
+let ELIMINATION_GAME_INPUT_N = document.getElementById("elimination-game-input-n");
+let ELIMINATION_GAME_INPUT_STEP = document.getElementById("elimination-game-input-step");
 
 
-document.querySelector(".binary-clearButton").onclick = () => {
-    BINARY_INPUT.value = "";
-    BINARY_RESULT.textContent = " ";
+document.querySelector(".binary-converter-clear-button").onclick = () => {
+    BINARY_CONVERTER_INPUT.value = "";
+    BINARY_CONVERTER_RESULT.textContent = " ";
 }
 
 
-document.querySelector(".eleminate-clearButton").onclick = () => {
-    ELEMINATE_INPUT_N.value = "";
-    ELEMINATE_INPUT_M.value = "";
-    ELEMINATE_RESULT.textContent = " ";
+document.querySelector(".elimination-game-clear-button").onclick = () => {
+    ELIMINATION_GAME_INPUT_N.value = "";
+    ELIMINATION_GAME_INPUT_STEP.value = "";
+    ELIMINTION_GAME_RESULT.textContent = " ";
 }
 
-document.querySelector(".degree-clearButton").onclick = (event) => {
+document.querySelector(".formula-generator-clear-button").onclick = (event) => {
     event.preventDefault();
-    DEGREE_INPUT.value = "";
-    DEGREE_RESULT.textContent = " ";
+    FORMULA_GENERATOR_INPUT.value = "";
+    FORMULA_GENERATOR_RESULT.textContent = " ";
 }
 
-document.querySelector(".binary-button").onclick = () => BINARY_RESULT.textContent = convertToBinary(BINARY_INPUT.value);
+document.querySelector(".binary-converter-execute-button").onclick =
+    () => BINARY_CONVERTER_RESULT.textContent = convertToBinary(BINARY_CONVERTER_INPUT.value);
 
-document.querySelector(".degree-button").onclick = (event) => {
+document.querySelector(".formula-generator-execute-button").onclick = (event) => {
     event.preventDefault();
-    DEGREE_RESULT.textContent = generateFormula(parseInt(DEGREE_INPUT.value));
+    FORMULA_GENERATOR_RESULT.textContent = generateFormula(parseInt(FORMULA_GENERATOR_INPUT.value));
 }
-document.querySelector(".eleminate-button").onclick = () => ELEMINATE_RESULT.textContent = `Победил игрок под номером 
-    ${startEliminationGame(parseInt(ELEMINATE_INPUT_N.value), parseInt(ELEMINATE_INPUT_M.value))}`;
+document.querySelector(".elimination-game-execute-button").onclick = () => {
+    if (ELIMINATION_GAME_INPUT_N.value == "" || ELIMINATION_GAME_INPUT_STEP.value == "") {
+        ELIMINTION_GAME_RESULT.textContent = "Invalid input";
+    } else {
+        ELIMINTION_GAME_RESULT.textContent = `Победил игрок под номером 
+    ${startEliminationGame(parseInt(ELIMINATION_GAME_INPUT_N.value), parseInt(ELIMINATION_GAME_INPUT_STEP.value))}`;
+    }
+}
+
