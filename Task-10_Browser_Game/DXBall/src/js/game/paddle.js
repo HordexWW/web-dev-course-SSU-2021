@@ -1,7 +1,7 @@
 export default class Paddle {
     constructor(gameWidth, gameHeight) {
+        this.image = document.getElementById("paddle_img");
         this.maxWidth = gameWidth;
-
         this.width = 150;
         this.height = 20;
 
@@ -27,8 +27,7 @@ export default class Paddle {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "#336702"
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
     }
 
     update(deltaTime) {
