@@ -6,8 +6,8 @@ export default class Brick {
             document.getElementById("brick_img3"),
         ];
         this.position = position;
-        this.width = 60;
-        this.height = 30;
+        this.width = 80;
+        this.height = 40;
     }
 
     draw(ctx) {
