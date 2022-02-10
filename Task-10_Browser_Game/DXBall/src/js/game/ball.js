@@ -1,3 +1,5 @@
+import {detectCollision} from "./collisionDetector";
+
 export default class Ball {
     constructor(game) {
 
@@ -34,16 +36,6 @@ export default class Ball {
         this.position.x += this.speed.x;
         this.position.y += this.speed.y;
 
-        let bottomOfBall = this.position.y + this.size;
-        let leftSideOfBall = this.position.x;
-        let rightSideOfBall = this.position.x + this.size;
-        let topOfBall = this.position.y;
-
-        let topOfPaddle = this.game.paddle.position.y;
-        let bottomOfPaddle = this.game.paddle.position.y + this.game.paddle.height
-        let leftSideOfPaddle = this.game.paddle.position.x
-        let rightSideOfPaddle = this.game.paddle.position.x + this.game.paddle.width;
-
         //checking collision with left or right wall
         if (this.position.x + this.size >= this.maxWidth || this.position.x <= 0) {
             this.changeDirectionX();
@@ -59,25 +51,19 @@ export default class Ball {
             this.changeDirectionY()
         }
 
-        //checking collision with top of paddle
-        if (bottomOfBall >= topOfPaddle &&
-            this.position.x >= leftSideOfPaddle &&
-            this.position.x + this.size <= rightSideOfPaddle) {
-            this.changeDirectionY()
-        }
-
-        //checking collision with left or right side of paddle
-        if (bottomOfBall >= topOfPaddle && topOfBall <= bottomOfPaddle) {
-            if (rightSideOfBall >= leftSideOfPaddle && rightSideOfBall <= leftSideOfPaddle + this.size) {
+        switch (detectCollision(this, this.game.paddle)) {
+            case 0:
                 this.changeDirectionX();
-                this.position.x = leftSideOfPaddle - this.size;
-            }
-            if (leftSideOfBall <= rightSideOfPaddle && leftSideOfBall >= rightSideOfPaddle - this.size) {
+                this.position.x = this.position.x - this.size;
+                break;
+            case 1:
                 this.changeDirectionX();
-                this.position.x = rightSideOfPaddle;
-            }
+                this.position.x = this.game.paddle.position.x + this.game.paddle.width
+                break;
+            case 2:
+                this.changeDirectionY();
+                this.position.y = this.game.paddle.position.y - this.size;
+                break;
         }
-
-
     }
 }

@@ -21,11 +21,10 @@ export default class Game {
 
     update(deltaTime) {
         this.gameObjects.forEach(gameObject => gameObject.update(deltaTime));
+        this.gameObjects = this.gameObjects.filter(object => !object.deletionMark);
     }
 
     draw(ctx) {
         this.gameObjects.forEach(gameObject => gameObject.draw(ctx));
     }
-
-
 }
