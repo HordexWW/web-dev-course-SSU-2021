@@ -7,17 +7,26 @@ export default class Ball {
         this.maxHeight = game.gameHeight;
         this.image = document.getElementById("ball_img");
         this.size = 12;
-
+        this.initialSpeed = 0;
         this.game = game;
+        this.reset(this.initialSpeed);
+
+    }
+
+    reset(initialSpeed) {
         this.position = {
             x: this.maxWidth / 2,
             y: this.maxHeight / 2
         }
         this.speed = {
-            x: 3,
-            y: 3
+            x: initialSpeed,
+            y: initialSpeed
         }
+    }
 
+    setSpeed(speed) {
+        this.initialSpeed = speed;
+        this.reset(this.initialSpeed);
     }
 
     changeDirectionX() {
@@ -48,7 +57,8 @@ export default class Ball {
 
         //checking collision with bottom wall
         if (this.position.y + this.size >= this.maxHeight) {
-            this.changeDirectionY()
+            this.game.playerLives --;
+            this.reset(this.initialSpeed);
         }
 
         switch (detectCollision(this, this.game.paddle)) {
