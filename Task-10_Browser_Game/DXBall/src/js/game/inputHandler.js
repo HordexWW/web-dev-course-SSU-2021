@@ -1,28 +1,31 @@
 export default class InputHandler {
 
-    constructor(paddle) {
+    constructor(game) {
         document.addEventListener("keydown",
             event => {
                 switch (event.key) {
                     case "ArrowLeft":
-                        paddle.moveLeft();
+                        game.paddle.moveLeft();
                         break;
                     case "ArrowRight":
-                        paddle.moveRight();
+                        game.paddle.moveRight();
                         break;
+                    case "Escape":
+                        console.log("esc");
+                        game.togglePause();
                 }
             });
         document.addEventListener("keyup",
             event => {
                 switch (event.key) {
                     case "ArrowLeft":
-                        if (paddle.speed < 0){
-                            paddle.stop();
+                        if (game.paddle.speed < 0){
+                            game.paddle.stop();
                         }
                         break;
                     case "ArrowRight":
-                        if (paddle.speed > 0){
-                            paddle.stop();
+                        if (game.paddle.speed > 0){
+                            game.paddle.stop();
                         }
                         break;
                 }
