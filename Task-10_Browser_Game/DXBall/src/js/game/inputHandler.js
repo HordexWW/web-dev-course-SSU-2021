@@ -11,7 +11,6 @@ export default class InputHandler {
                         game.paddle.moveRight();
                         break;
                     case "Escape":
-                        console.log("esc");
                         game.togglePause();
                 }
             });

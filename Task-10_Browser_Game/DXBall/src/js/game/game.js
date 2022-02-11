@@ -48,7 +48,6 @@ export default class Game {
     }
 
     togglePause() {
-        console.log(this.gameState)
         this.gameState = this.gameState === GAME_STATE.PAUSED ? GAME_STATE.RUNNING : GAME_STATE.PAUSED;
     }
 }
