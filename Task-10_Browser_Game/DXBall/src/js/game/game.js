@@ -14,7 +14,7 @@ const GAME_STATE = {
 export default class Game {
     constructor(gameWidth, gameHeight) {
         this.gameWidth = gameWidth;
-        this.gameHeight = gameHeight;
+        this.gameHeight = gameHeight - 50;
 
         this.gameState = GAME_STATE.MENU;
         this.ball = new Ball(this);
@@ -51,10 +51,6 @@ export default class Game {
     }
 
     update(deltaTime) {
-
-        console.log("game state - " + this.gameState);
-
-        console.log("player lives - " + this.playerLives);
         if (this.playerLives === 0) {
             this.gameState = GAME_STATE.GAME_OVER;
 
@@ -67,8 +63,6 @@ export default class Game {
 
         }
 
-        console.log("bricks length - " + this.bricks.length);
-
         if (this.bricks.length === 0) {
             this.currentLevel++;
             this.gameState = GAME_STATE.NEW_LEVEL
@@ -80,17 +74,20 @@ export default class Game {
     }
 
     draw(ctx) {
+
+        this.drawStatusBar(ctx);
+
         [...this.gameObjects, ...this.bricks].forEach(gameObject => gameObject.draw(ctx));
         if (this.gameState === GAME_STATE.PAUSED) {
-            this.drawUIScreen(ctx, "PAUSED", 0.5);
+            this.drawGameStatusScreen(ctx, "PAUSED", 0.5);
         }
 
         if (this.gameState === GAME_STATE.MENU) {
-            this.drawUIScreen(ctx, "PRESS SPACE BAR TO START", 1);
+            this.drawGameStatusScreen(ctx, "PRESS SPACE BAR TO START", 1);
         }
 
         if (this.gameState === GAME_STATE.GAME_OVER) {
-            this.drawUIScreen(ctx, "GAME OVER", 1)
+            this.drawGameStatusScreen(ctx, "GAME OVER", 1)
         }
     }
 
@@ -101,7 +98,7 @@ export default class Game {
         this.gameState = this.gameState === GAME_STATE.PAUSED ? GAME_STATE.RUNNING : GAME_STATE.PAUSED;
     }
 
-    drawUIScreen(ctx, text, transparency) {
+    drawGameStatusScreen(ctx, text, transparency) {
         ctx.rect(0, 0, this.gameWidth, this.gameHeight);
         ctx.fillStyle = "rgba(0,0,0, " + transparency + ")";
         ctx.fill();
@@ -111,4 +108,17 @@ export default class Game {
         ctx.textAlign = "center";
         ctx.fillText(text, this.gameWidth / 2, this.gameHeight / 2);
     }
+
+    drawStatusBar(ctx) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+        ctx.fillRect(0, this.gameHeight, this.gameWidth, 50);
+        ctx.font = "15px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Level " + (this.currentLevel + 1), 50 , this.gameHeight + 30);
+
+        ctx.font = "15px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Lives: " + this.playerLives, this.gameWidth - 50 , this.gameHeight + 30);
+    }
+
 }
