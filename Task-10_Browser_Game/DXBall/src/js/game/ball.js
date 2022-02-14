@@ -7,25 +7,29 @@ export default class Ball {
         this.maxHeight = game.gameHeight;
         this.image = document.getElementById("ball_img");
         this.size = 12;
-        this.initialSpeed = 0;
+        this.initialSpeed =  {
+            x: 0,
+            y: 0
+        };
         this.game = game;
         this.reset(this.initialSpeed);
 
     }
 
-    reset(initialSpeed) {
+    reset(speed) {
         this.position = {
             x: this.maxWidth / 2,
             y: this.maxHeight / 2
         }
         this.speed = {
-            x: initialSpeed,
-            y: initialSpeed
+            x: speed.x,
+            y: speed.y
         }
     }
 
     setSpeed(speed) {
-        this.initialSpeed = speed;
+        this.initialSpeed.x = speed.x;
+        this.initialSpeed.y = speed.y;
         this.reset(this.initialSpeed);
     }
 
