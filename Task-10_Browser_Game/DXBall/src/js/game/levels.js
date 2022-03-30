@@ -53,8 +53,8 @@ const level3 = {
 
 const level4 = {
     speed: {
-        x: -6,
-        y: -6
+        x: -4,
+        y: -4
     },
     structure: [
         [1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
@@ -65,8 +65,8 @@ const level4 = {
 
 const level5 = {
     speed: {
-        x: 8,
-        y: -8
+        x: 5,
+        y: -5
     },
     structure: [
         [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],

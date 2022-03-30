@@ -8,7 +8,8 @@ const GAME_STATE = {
     PAUSED: 1,
     MENU: 2,
     GAME_OVER: 3,
-    NEW_LEVEL: 4
+    NEW_LEVEL: 4,
+    END: 5
 }
 
 export default class Game {
@@ -40,7 +41,7 @@ export default class Game {
         this.playerLives = 3;
 
         this.gameObjects = [this.ball, this.paddle];
-        if (this.gameState === GAME_STATE.GAME_OVER) {
+        if (this.gameState === GAME_STATE.GAME_OVER || this.gameState === GAME_STATE.END) {
             this.currentLevel = 0;
             this.gameState = GAME_STATE.MENU;
         } else {
@@ -51,6 +52,7 @@ export default class Game {
     }
 
     update(deltaTime) {
+
         if (this.playerLives === 0) {
             this.gameState = GAME_STATE.GAME_OVER;
 
@@ -58,16 +60,23 @@ export default class Game {
 
         if (this.gameState === GAME_STATE.PAUSED ||
             this.gameState === GAME_STATE.MENU ||
-            this.gameState === GAME_STATE.GAME_OVER) {
+            this.gameState === GAME_STATE.GAME_OVER ||
+            this.gameState === GAME_STATE.END) {
             return;
 
         }
 
         if (this.bricks.length === 0) {
             this.currentLevel++;
-            this.gameState = GAME_STATE.NEW_LEVEL
-            this.start();
+            if (this.currentLevel < 5) {
+                this.gameState = GAME_STATE.NEW_LEVEL
+                this.start();
+            } else {
+                this.gameState = GAME_STATE.END
+            }
         }
+
+
 
         [...this.gameObjects, ...this.bricks].forEach(gameObject => gameObject.update(deltaTime));
         this.bricks = this.bricks.filter(object => !object.deletionMark);
@@ -88,6 +97,10 @@ export default class Game {
 
         if (this.gameState === GAME_STATE.GAME_OVER) {
             this.drawGameStatusScreen(ctx, "GAME OVER", 1)
+        }
+
+        if (this.gameState === GAME_STATE.END) {
+            this.drawGameStatusScreen(ctx, "YOU WIN!", 1)
         }
     }
 
